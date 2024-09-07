@@ -5,26 +5,27 @@ import VerticalCard from '../components/VerticalCard'
 import SummaryApi from '../common'
 
 const CategoryProduct = () => {
-    const [data,setData] = useState([])
-    const navigate = useNavigate()
-    const [loading,setLoading] = useState(false)
-    const location = useLocation()
-    const urlSearch = new URLSearchParams(location.search)
-    const urlCategoryListinArray = urlSearch.getAll("category")
+    const [data,setData] = useState([]);
+    const navigate = useNavigate();
+    const [loading,setLoading] = useState(false);
+    const location = useLocation();
+    const urlSearch = new URLSearchParams(location.search);
+    const urlCategoryListinArray = urlSearch.getAll("category");
 
-    const urlCategoryListObject = {}
+    const urlCategoryListObject = {};
     urlCategoryListinArray.forEach(el =>{
-      urlCategoryListObject[el] = true
-    })
+      urlCategoryListObject[el] = true;
+    });
 
-    const [selectCategory,setSelectCategory] = useState(urlCategoryListObject)
-    const [filterCategoryList,setFilterCategoryList] = useState([])
+    const [selectCategory,setSelectCategory] = useState(urlCategoryListObject);
+    const [filterCategoryList,setFilterCategoryList] = useState([]);
 
-    const [sortBy,setSortBy] = useState("")
+    const [sortBy,setSortBy] = useState("");
 
     const fetchData = async()=>{
       const response = await fetch(SummaryApi.filterProduct.url,{
         method : SummaryApi.filterProduct.method,
+         credentials: 'include',
         headers : {
           "content-type" : "application/json"
         },
@@ -33,12 +34,12 @@ const CategoryProduct = () => {
         })
       })
 
-      const dataResponse = await response.json()
+      const dataResponse = await response.json();
       setData(dataResponse?.data || [])
     }
 
     const handleSelectCategory = (e) =>{
-      const {name , value, checked} =  e.target
+      const {name , value, checked} =  e.target;
 
       setSelectCategory((preve)=>{
         return{
@@ -55,12 +56,12 @@ const CategoryProduct = () => {
     useEffect(()=>{
       const arrayOfCategory = Object.keys(selectCategory).map(categoryKeyName =>{
         if(selectCategory[categoryKeyName]){
-          return categoryKeyName
+          return categoryKeyName;
         }
-        return null
+        return null;
       }).filter(el => el)
 
-      setFilterCategoryList(arrayOfCategory)
+      setFilterCategoryList(arrayOfCategory);
 
       //format for url change when change on the checkbox
       const urlFormat = arrayOfCategory.map((el,index) => {
@@ -71,20 +72,20 @@ const CategoryProduct = () => {
       })
 
       navigate("/product-category?"+urlFormat.join(""))
-    },[selectCategory])
+    },[selectCategory]);
 
 
     const handleOnChangeSortBy = (e)=>{
-      const { value } = e.target
+      const { value } = e.target;
 
-      setSortBy(value)
+      setSortBy(value);
 
       if(value === 'asc'){
-        setData(preve => preve.sort((a,b)=>a.sellingPrice - b.sellingPrice))
+        setData(preve => preve.sort((a,b)=>a.sellingPrice - b.sellingPrice));
       }
 
       if(value === 'dsc'){
-        setData(preve => preve.sort((a,b)=>b.sellingPrice - a.sellingPrice))
+        setData(preve => preve.sort((a,b)=>b.sellingPrice - a.sellingPrice));
       }
     }
 
