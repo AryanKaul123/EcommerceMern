@@ -11,9 +11,9 @@ const fetchCategoryWiseProduct = async(category)=>{
         })
     })
 
-    const dataResponse = await response.json()
+    const dataResponse = await response.json();
 
-    return dataResponse
+    return dataResponse;
 }
 
-export default fetchCategoryWiseProduct
+export default fetchCategoryWiseProduct;
