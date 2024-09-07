@@ -7,7 +7,6 @@ const fetchCategoryWiseProduct = async (category) => {
       headers: {
         "content-type": "application/json",
       },
-      // Only include body if the method is not GET
       body: SummaryApi.categoryWiseProduct.method !== 'GET'
         ? JSON.stringify({ category })
         : undefined,
@@ -17,12 +16,16 @@ const fetchCategoryWiseProduct = async (category) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const dataResponse = await response.json();
+    // Check if the response body is empty
+    const textResponse = await response.text();
+    const dataResponse = textResponse ? JSON.parse(textResponse) : null;
+
     return dataResponse;
   } catch (error) {
     console.error("Error fetching category-wise product:", error);
     throw error;
   }
 };
+
 
 export default fetchCategoryWiseProduct;
