@@ -21,10 +21,10 @@ function App() {
         credentials : 'include'
       })
 
-      const dataApi = await dataResponse.json()
+      const dataApi = await dataResponse.json();
 
       if(dataApi.success){
-        dispatch(setUserDetails(dataApi.data))
+        dispatch(setUserDetails(dataApi.data));
       }
   }
 
@@ -57,9 +57,9 @@ function App() {
 
   useEffect(()=>{
     /**user Details */
-    fetchUserDetails()
+    fetchUserDetails();
     /**user Details cart product */
-    fetchUserAddToCart()
+    fetchUserAddToCart();
 
   },[])
   return (
