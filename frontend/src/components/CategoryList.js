@@ -3,21 +3,23 @@ import SummaryApi from '../common'
 import { Link } from 'react-router-dom'
 
 const CategoryList = () => {
-    const [categoryProduct,setCategoryProduct] = useState([])
-    const [loading,setLoading] = useState(false)
+    const [categoryProduct,setCategoryProduct] = useState([]);
+    const [loading,setLoading] = useState(false);
 
-    const categoryLoading = new Array(13).fill(null)
+    const categoryLoading = new Array(13).fill(null);
 
     const fetchCategoryProduct = async() =>{
-        setLoading(true)
-        const response = await fetch(SummaryApi.categoryProduct.url)
-        const dataResponse = await response.json()
-        setLoading(false)
-        setCategoryProduct(dataResponse.data)
+        setLoading(true);
+        const response = await fetch(SummaryApi.categoryProduct.url,{
+            credentials: 'include'
+        });
+        const dataResponse = await response.json();
+        setLoading(false);
+        setCategoryProduct(dataResponse.data);
     }
 
     useEffect(()=>{
-        fetchCategoryProduct()
+        fetchCategoryProduct();
     },[])
 
   return (
