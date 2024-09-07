@@ -23,18 +23,28 @@ const HorizontalCardProduct = ({category, heading}) => {
        fetchUserAddToCart();
     }
 
-    const fetchData = async() =>{
-        setLoading(true);
-        const categoryProduct = await fetchCategoryWiseProduct(category);
-        setLoading(false);
+   const fetchData = async () => {
+  try {
+    setLoading(true);
+    const categoryProduct = await fetchCategoryWiseProduct(category);
+    setLoading(false);
 
-        console.log("horizontal data",categoryProduct.data);
-        setData(categoryProduct?.data);
+    if (categoryProduct && categoryProduct.data) {
+      console.log("horizontal data", categoryProduct.data);
+      setData(categoryProduct.data);
+    } else {
+      console.log("No data received");
     }
+  } catch (error) {
+    setLoading(false);
+    console.error("Error in fetchData:", error);
+  }
+};
 
-    useEffect(()=>{
-        fetchData();
-    },[])
+useEffect(() => {
+  fetchData();
+}, []);
+
 
     const scrollRight = () =>{
         scrollElement.current.scrollLeft += 300;
