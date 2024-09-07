@@ -12,36 +12,21 @@ import { useDispatch } from 'react-redux';
 import { setUserDetails } from './store/userSlice';
 
 function App() {
-  const dispatch = useDispatch()
-  const [cartProductCount,setCartProductCount] = useState(0)
+  const dispatch = useDispatch();
+  const [cartProductCount,setCartProductCount] = useState(0);
 
- 
+  const fetchUserDetails = async()=>{
+      const dataResponse = await fetch(SummaryApi.current_user.url,{
+        method : SummaryApi.current_user.method,
+        credentials : 'include'
+      })
 
-  const fetchUserDetails = async () => {
-  try {
-    const dataResponse = await fetch(SummaryApi.current_user.url, {
-      method: SummaryApi.current_user.method,
-      credentials: 'include',
-    });
+      const dataApi = await dataResponse.json();
 
-    // Check if the response is ok (status in the range 200-299)
-    if (!dataResponse.ok) {
-      throw new Error(`HTTP error! status: ${dataResponse.status}`);
-    }
-
-    // Safely parse JSON, catch any parsing errors
-    const textResponse = await dataResponse.text();
-    const dataApi = textResponse ? JSON.parse(textResponse) : null;
-
-    if (dataApi && dataApi.success) {
-      dispatch(setUserDetails(dataApi.data));
-    } else {
-      console.warn("Failed to fetch user details, response: ", dataApi);
-    }
-  } catch (error) {
-    console.error("Error fetching user details:", error);
+      if(dataApi.success){
+        dispatch(setUserDetails(dataApi.data));
+      }
   }
-};
 
   const fetchUserAddToCart = async()=>{
     const dataResponse = await fetch(SummaryApi.addToCartProductCount.url,{
@@ -49,12 +34,10 @@ function App() {
       credentials : 'include'
     })
 
-    const dataApi = await dataResponse.json()
+    const dataApi = await dataResponse.json();
 
-    setCartProductCount(dataApi?.data?.count)
+    setCartProductCount(dataApi?.data?.count);
   }
-
-
 
   useEffect(()=>{
     /**user Details */
@@ -62,7 +45,7 @@ function App() {
     /**user Details cart product */
     fetchUserAddToCart();
 
-  },[])
+  },[]);
   return (
     <>
       <Context.Provider value={{
