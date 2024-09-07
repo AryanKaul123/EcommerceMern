@@ -1,45 +1,46 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import fetchCategoryWiseProduct from '../helpers/fetchCategoryWiseProduct'
-import displayINRCurrency from '../helpers/displayCurrency'
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6'
-import { Link } from 'react-router-dom'
-import addToCart from '../helpers/addToCart'
-import Context from '../context'
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import fetchCategoryWiseProduct from '../helpers/fetchCategoryWiseProduct';
+
+import displayINRCurrency from '../helpers/displayCurrency';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
+import addToCart from '../helpers/addToCart';
+import Context from '../context';
 
 const HorizontalCardProduct = ({category, heading}) => {
-    const [data,setData] = useState([])
-    const [loading,setLoading] = useState(true)
-    const loadingList = new Array(13).fill(null)
+    const [data,setData] = useState([]);
+    const [loading,setLoading] = useState(true);
+    const loadingList = new Array(13).fill(null);
 
-    const [scroll,setScroll] = useState(0)
-    const scrollElement = useRef()
+    const [scroll,setScroll] = useState(0);
+    const scrollElement = useRef();
 
 
-    const { fetchUserAddToCart } = useContext(Context)
+    const { fetchUserAddToCart } = useContext(Context);
 
     const handleAddToCart = async(e,id)=>{
-       await addToCart(e,id)
-       fetchUserAddToCart()
+       await addToCart(e,id);
+       fetchUserAddToCart();
     }
 
     const fetchData = async() =>{
-        setLoading(true)
-        const categoryProduct = await fetchCategoryWiseProduct(category)
-        setLoading(false)
+        setLoading(true);
+        const categoryProduct = await fetchCategoryWiseProduct(category);
+        setLoading(false);
 
-        console.log("horizontal data",categoryProduct.data)
-        setData(categoryProduct?.data)
+        console.log("horizontal data",categoryProduct.data);
+        setData(categoryProduct?.data);
     }
 
     useEffect(()=>{
-        fetchData()
+        fetchData();
     },[])
 
     const scrollRight = () =>{
-        scrollElement.current.scrollLeft += 300
+        scrollElement.current.scrollLeft += 300;
     }
     const scrollLeft = () =>{
-        scrollElement.current.scrollLeft -= 300
+        scrollElement.current.scrollLeft -= 300;
     }
 
 
