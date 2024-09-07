@@ -7,10 +7,15 @@ const router = require('./routes')
 
 
 const app = express()
+
+   
 app.use(cors({
-    origin : process.env.FRONTEND_URL,
-    credentials : true
-}))
+  origin: ['http://localhost:3000', 'https://ecommercemern-2.onrender.com'],
+  credentials: true,
+}));
+
+   
+
 app.use(express.json())
 app.use(cookieParser())
 
