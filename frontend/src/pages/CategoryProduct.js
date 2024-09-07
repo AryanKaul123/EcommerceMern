@@ -15,27 +15,27 @@ const CategoryProduct = () => {
     const urlCategoryListObject = {};
     urlCategoryListinArray.forEach(el =>{
       urlCategoryListObject[el] = true;
-    });
+    })
 
-    const [selectCategory,setSelectCategory] = useState(urlCategoryListObject);
-    const [filterCategoryList,setFilterCategoryList] = useState([]);
+    const [selectCategory,setSelectCategory] = useState(urlCategoryListObject)
+    const [filterCategoryList,setFilterCategoryList] = useState([])
 
     const [sortBy,setSortBy] = useState("");
 
     const fetchData = async()=>{
       const response = await fetch(SummaryApi.filterProduct.url,{
+        credentials:"include",
         method : SummaryApi.filterProduct.method,
-         credentials: 'include',
         headers : {
           "content-type" : "application/json"
         },
         body : JSON.stringify({
           category : filterCategoryList
         })
-      })
+      });
 
       const dataResponse = await response.json();
-      setData(dataResponse?.data || [])
+      setData(dataResponse?.data || []);
     }
 
     const handleSelectCategory = (e) =>{
@@ -46,19 +46,19 @@ const CategoryProduct = () => {
           ...preve,
           [value] : checked
         }
-      })
+      });
     }
 
     useEffect(()=>{
-      fetchData()
-    },[filterCategoryList])
+      fetchData();
+    },[filterCategoryList]);
 
     useEffect(()=>{
       const arrayOfCategory = Object.keys(selectCategory).map(categoryKeyName =>{
         if(selectCategory[categoryKeyName]){
           return categoryKeyName;
         }
-        return null;
+        return null
       }).filter(el => el)
 
       setFilterCategoryList(arrayOfCategory);
@@ -91,7 +91,7 @@ const CategoryProduct = () => {
 
     useEffect(()=>{
 
-    },[sortBy])
+    },[sortBy]);
     
   return (
     <div className='container mx-auto p-4'>
