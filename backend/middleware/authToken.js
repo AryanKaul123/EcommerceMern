@@ -1,41 +1,44 @@
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
-async function authToken(req,res,next){
-    try{
-        const token = req.cookies?.token
+async function authToken(req, res, next) {
+    try {
+        const token = req.cookies?.token;
+        
+        console.log("Token received:", token);
 
-        console.log("token",token)
-        if(!token){
-            return res.status(200).json({
-                message : "Please Login...!",
-                error : true,
-                success : false
-            })
+        if (!token) {
+            return res.status(401).json({
+                message: "Please Login...!",
+                error: true,
+                success: false
+            });
         }
 
-        jwt.verify(token, process.env.TOKEN_SECRET_KEY, function(err, decoded) {
-            console.log(err)
-            console.log("decoded",decoded)
-            
-            if(err){
-                console.log("error auth", err)
+        jwt.verify(token, process.env.TOKEN_SECRET_KEY, (err, decoded) => {
+            if (err) {
+                console.log("Error verifying token:", err);
+                return res.status(401).json({
+                    message: "Invalid or expired token",
+                    error: true,
+                    success: false
+                });
             }
 
-            req.userId = decoded?._id
+            console.log("Decoded token:", decoded);
+            req.userId = decoded?._id; // Attach user ID to request
 
-            next()
+            next();
         });
 
-
-    }catch(err){
+    } catch (err) {
+        console.error("Middleware error:", err);
         res.status(400).json({
-            message : err.message || err,
-            data : [],
-            error : true,
-            success : false
-        })
+            message: err.message || 'An error occurred',
+            data: [],
+            error: true,
+            success: false
+        });
     }
 }
 
-
-module.exports = authToken
+module.exports = authToken;
