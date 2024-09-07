@@ -1,4 +1,4 @@
-const { default: SummaryApi } = require("../common")
+import SummaryApi from "../common";
 
 const fetchCategoryWiseProduct = async(category)=>{
     const response = await fetch(SummaryApi.categoryWiseProduct.url,{
