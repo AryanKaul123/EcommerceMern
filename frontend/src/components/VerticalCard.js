@@ -1,17 +1,17 @@
-import React, { useContext } from 'react'
-import scrollTop from '../helpers/scrollTop'
-import displayINRCurrency from '../helpers/displayCurrency'
-import Context from '../context'
-import addToCart from '../helpers/addToCart'
-import { Link } from 'react-router-dom'
+import React, { useContext } from 'react';
+import scrollTop from '../helpers/scrollTop';
+import displayINRCurrency from '../helpers/displayCurrency';
+import Context from '../context';
+import addToCart from '../helpers/addToCart';
+import { Link } from 'react-router-dom';
 
 const VerticalCard = ({loading,data = []}) => {
-    const loadingList = new Array(13).fill(null)
-    const { fetchUserAddToCart } = useContext(Context)
+    const loadingList = new Array(13).fill(null);
+    const { fetchUserAddToCart } = useContext(Context);
 
     const handleAddToCart = async(e,id)=>{
-       await addToCart(e,id)
-       fetchUserAddToCart()
+       await addToCart(e,id);
+       fetchUserAddToCart();
     }
 
   return (
